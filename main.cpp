@@ -21,6 +21,18 @@ std::string print_json(const emscripten::val &jsobj)
     return result.as<std::string>();
 }
 
+// only works with {s : string, i: int, f: float}
+void parse_json(const emscripten::val &jsobj)
+{
+    std::string s = jsobj["s"].as<std::string>();
+    int i = jsobj["i"].as<int>();
+    float f = jsobj["f"].as<float>();
+
+    std::cout << " s: " << s << 
+                 " i: " << i << 
+                 " f: " << f << std::endl; 
+}
+
 emscripten::val return_json()
 {
     emscripten::val jsobj = emscripten::val::object();
@@ -48,5 +60,6 @@ EMSCRIPTEN_BINDINGS(json_object){
     emscripten::function("isitup", &isitup);
     emscripten::function("print_json", &print_json);
     emscripten::function("return_json", &return_json);
+    emscripten::function("parse_json", &parse_json);
 }
 #endif //__EMSCRIPTEN__
